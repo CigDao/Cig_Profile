@@ -3,19 +3,6 @@
     "Cig_Profile_backend": {
       "main": "src/Cig_Profile_backend/main.mo",
       "type": "motoko"
-    },
-    "Cig_Profile_frontend": {
-      "dependencies": [
-        "Cig_Profile_backend"
-      ],
-      "frontend": {
-        "entrypoint": "src/Cig_Profile_frontend/src/index.html"
-      },
-      "source": [
-        "src/Cig_Profile_frontend/assets",
-        "dist/Cig_Profile_frontend/"
-      ],
-      "type": "assets"
     }
   },
   "defaults": {
