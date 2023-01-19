@@ -13,7 +13,8 @@ module {
         #twitter:Text;
         #dscvr:Text;
         #distrik:Text;
-        #instagram:Text;
-        #youtube:Text;
+        #seers:Text;
+        #taggr:Text;
+        #website:Text;
     };
 }
