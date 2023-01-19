@@ -68,6 +68,7 @@ actor class CigProfile() = this {
   public shared({caller}) func setProfile(profile:Profile): async TokenService.TxReceipt {
     let exist = profiles.get(caller);
     var time = Time.now();
+    var username = profile.username;
     let allowance = await TokenService.allowance(caller, Principal.fromActor(this));
     if(cost > allowance){
       return #Err(#InsufficientAllowance);
@@ -76,6 +77,7 @@ actor class CigProfile() = this {
     switch(exist){
       case(?exist){
         time := exist.createdAt;
+        username := exist.username;
       };
       case(null){
 
@@ -83,14 +85,45 @@ actor class CigProfile() = this {
     };
 
     let _profile = {
+        username = username;
         bio = profile.bio;
         headline = profile.headline;
         socials = profile.socials;
         profileImage = profile.profileImage;
+        banner = profile.banner;
         createdAt = time;
     };
 
     profiles.put(caller,_profile);
+    #Ok(0);
+  };
+
+  public shared({caller}) func setUserName(username:Text): async TokenService.TxReceipt {
+    let exist = profiles.get(caller);
+    let allowance = await TokenService.allowance(caller, Principal.fromActor(this));
+    if(cost > allowance){
+      return #Err(#InsufficientAllowance);
+    };
+    
+    let result:[(Principal,Profile)] = Array.filter(Iter.toArray(profiles.entries()),func(e:(Principal,Profile)):Bool{e.1.username == username});
+    assert(result.size() == 0);
+    switch(exist){
+      case(?exist){
+        let _profile = {
+          username = username;
+          bio = exist.bio;
+          headline = exist.headline;
+          socials = exist.socials;
+          profileImage = exist.profileImage;
+          banner = exist.banner;
+          createdAt = exist.createdAt;
+        };
+        profiles.put(caller,_profile);
+      };
+      case(null){
+
+      }
+    };
     #Ok(0);
   };
 

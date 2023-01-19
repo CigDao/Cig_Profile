@@ -2,10 +2,12 @@ import Time "mo:base/Time";
 
 module {
     public type Profile = {
+        username:Text;
         bio:Text;
         headline:Text;
         socials:[Social];
         profileImage:Text;
+        banner:Text;
         createdAt:Time.Time;
     };
 
